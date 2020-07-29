@@ -1,0 +1,17 @@
+<?php
+
+$shortopts = "hf:v::d";
+$longopts = ["help", "version"];
+$opts = getopt($shortopts, $longopts);
+
+if(isset($opts["help"]) || isset($opts["h"]))
+{
+	fprintf(STDERR, "This is help" . PHP_EOL);
+	exit;
+}
+
+if(isset($opts["f"]))
+{
+	fprintf(STDOUT, "Your name is " . $opts["f"] . PHP_EOL);
+	exit;
+}

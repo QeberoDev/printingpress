@@ -1,0 +1,16 @@
+.main-navbar > .navbar-brand {
+	color: #e49486 !important;
+	/* color: #474747 !important; */
+	font-weight: 700;
+	padding: 0 4px;
+	border-radius: 3px;
+	/* border-bottom: solid 6px #474747; */
+}
+
+.customers-group, .customers-group > * {
+	cursor: default;
+}
+
+a:hover {
+	text-decoration: none;
+}
