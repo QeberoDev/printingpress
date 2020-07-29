@@ -1,1 +1,10 @@
+# For now My frontend resorces are placed here.
+# Since they are large in size I can't push them to the repo.
 /resources/addons/**
+
+# Temporary Documents
+*.~vsdx
+
+# Exclude Libraries From Package Managers
+## [Composer]
+/vendor/**
