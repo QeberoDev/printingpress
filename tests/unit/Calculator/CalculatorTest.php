@@ -77,7 +77,7 @@ class CalculatorTest extends TestCase
 		$calculator = new Calculator();
 		$calculator->setOperations([$addition, $division]);
 
-		$this->assertIsArray($calculator);
+		$this->assertIsArray($calculator->calculate());
 		$this->assertEquals(15, $calculator->calculate()[0]);
 		$this->assertEquals(3, $calculator->calculate()[1]);
 	}

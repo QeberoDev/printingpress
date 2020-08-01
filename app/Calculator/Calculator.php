@@ -31,4 +31,16 @@ class Calculator
 	{
 		return $this->operations;
 	}
+
+	public function calculate()
+	{
+		if(count($this->operations) !== 1){
+			$results = array_map(function ($operation) {
+				return $operation->calculate();
+			}, $this->operations);
+			return $results;
+		}
+
+		return $this->operations[0]->calculate();
+	}
 }
