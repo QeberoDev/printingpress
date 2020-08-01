@@ -8,3 +8,6 @@
 # Exclude Libraries From Package Managers
 ## [Composer]
 /vendor/**
+
+## Leaving out vscode config files
+/.vscode

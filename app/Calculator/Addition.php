@@ -4,9 +4,9 @@ namespace App\Calculator;
 
 use App\Calculator\OperationInterface as OperationInterface;
 use App\Calculator\Exceptions\NoOperandsException as NoOperandsException;
-use App\Calculator\Operation as Operation;
+use App\Calculator\OperationAbstract as OperationAbstract;
 
-class Addition extends Operation implements OperationInterface
+class Addition extends OperationAbstract implements OperationInterface
 {
 	public function calculate()
 	{

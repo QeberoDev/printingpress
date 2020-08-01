@@ -2,13 +2,13 @@
 
 namespace App\Calculator;
 
-abstract class Operation
+abstract class OperationAbstract
 {
 	protected $operands = [];
 
 	public function setOperands(array $operands)
 	{
-		$this->$operands = $operands;
+		$this->operands = $operands;
 	}
 
 	public function getOperands()
