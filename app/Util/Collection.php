@@ -19,8 +19,9 @@ class Collection implements IteratorAggregate, JsonSerializable
 	{
 		$this->items = array_merge($this->items, $items);
 	}
-	public function get()
+	public function get(int $index = -1)
 	{
+		if($index > -1 && $index < $this->count()) return $this->items[$index];
 		return $this->items;
 	}
 	public function count()
