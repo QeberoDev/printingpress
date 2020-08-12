@@ -16,20 +16,20 @@ class CustomerController extends Controller
 		parent::__construct();
 	}
 
-	public static function &Create(string $name, string $address, string $phonenumber)
+	public static function Create(string $name, string $phonenumber, string $address = null)
 	{
 		$name = htmlspecialchars(strip_tags($name));
-		$address = htmlspecialchars(strip_tags($address));
+		if($address) $address = htmlspecialchars(strip_tags($address));
 		$phonenumber = htmlspecialchars(strip_tags($phonenumber));
 
-		$customer = new Customer($name, $address, $phonenumber);
+		$customer = new Customer($name, $phonenumber);
 
-		$db = (new Database())->getInstance();
+		$db = (new Database())->GetInstance();
 
 		$query = "INSERT INTO "
-			. CustomerController::TABLE_NAME .
+			. self::TABLE_NAME .
 			" SET
-					name=:name, address=:address, phonenumber=:phonenumber";
+				name=:name, address=:address, phonenumber=:phonenumber";
 		$stmt = $db->prepare($query);
 
 		// binding
@@ -45,25 +45,25 @@ class CustomerController extends Controller
 
 		return NULL;
 	}
-	public static function &Read(string $id)
+	public static function Read(string $id)
 	{
-		$query = "SELECT * FROM " . CustomerController::TABLE_NAME . " WHERE id=? LIMIT 0, 1";
+		$query = "SELECT * FROM " . self::TABLE_NAME . " WHERE customer_id=:id LIMIT 0, 1";
 
-		$db = (new Database())->getInstance();
+		$db = (new Database())->GetInstance();
 
 		$stmt = $db->prepare($query);
-		$stmt->bindParam(1, $id);
+		$stmt->bindParam("id", $id);
 
 		$stmt->execute();
 
 		if ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 			$customer = new Customer(
 				$row["name"],
-				$row["address"],
-				$row["phonenumber"]
+				$row["phonenumber"],
+				$row["address"]
 			);
 
-			$customer->setId($row["id"]);
+			$customer->setId($row["customer_id"]);
 
 			return $customer;
 		}
@@ -71,14 +71,14 @@ class CustomerController extends Controller
 		return NULL;
 	}
 	## TODO: Add Paged Returns
-	public static function &ReadAll(int $page = 1)
+	public static function ReadAll(int $page = 1)
 	{
 		$tablename = CustomerController::TABLE_NAME;
 		$offset = ($page <= 1) ? 0 : 20 * ($page - 1);
-		$query = "SELECT * FROM {$tablename} ORDER BY id LIMIT {$offset}, 20";
+		$query = "SELECT * FROM {$tablename} ORDER BY customer_id LIMIT {$offset}, 20";
 
 		$db = new Database();
-		$db = $db->getInstance();
+		$db = $db->GetInstance();
 
 		$stmt = $db->prepare($query);
 
@@ -111,27 +111,26 @@ class CustomerController extends Controller
 		
 		return $result;
 	}
-	public static function &Update(string $id, string $name, string $address, string $phonenumber)
+	public static function Update(string $id, string $name, string $phonenumber, string $address)
 	{
 		$id = htmlspecialchars(strip_tags($id));
 		$name = htmlspecialchars(strip_tags($name));
-		$address = htmlspecialchars(strip_tags($address));
 		$phonenumber = htmlspecialchars(strip_tags($phonenumber));
+		if($address) $address = htmlspecialchars(strip_tags($address));
 
 		$customer = new Customer($name, $address, $phonenumber);
 		$customer->setId($id);
 
-		$db = (new Database())->getInstance();
+		$db = (new Database())->GetInstance();
 
-		$query = "	UPDATE " .
+		$query = "UPDATE " .
 			CustomerController::TABLE_NAME .
 			" SET
-						name = :name,
-						address = :address,
-						phonenumber = :phonenumber
-					WHERE
-						id = :id
-				";
+				name = :name,
+				address = :address,
+				phonenumber = :phonenumber
+			WHERE
+				customer_id = :id";
 		$stmt = $db->prepare($query);
 
 		$stmt->bindParam(":id", $id);
@@ -148,10 +147,10 @@ class CustomerController extends Controller
 	public static function Delete(string $id)
 	{
 		// delete query
-		$query = "DELETE FROM " . CustomerController::TABLE_NAME . " WHERE id = ?";
+		$query = "DELETE FROM " . CustomerController::TABLE_NAME . " WHERE customer_id = ?";
 
 		$db = new Database();
-		$db = $db->getInstance();
+		$db = $db->GetInstance();
 
 		// prepare query
 		$stmt = $db->prepare($query);
@@ -169,7 +168,6 @@ class CustomerController extends Controller
 
 		return false;
 	}
-
 	public static function Search(string $query)
 	{
 	}
@@ -178,7 +176,7 @@ class CustomerController extends Controller
 		$countQuery = "SELECT COUNT(*) as count FROM customer";
 
 		$db = new Database();
-		$db = $db->getInstance();
+		$db = $db->GetInstance();
 		
 		$stmt = $db->prepare($countQuery);
 		$stmt->execute();

@@ -6,7 +6,7 @@ use App\Library\Abstraction\Comparable as Comparable;
 use App\Library\Abstraction\IParsable as IParsable;
 use App\Model\Abstraction\IDataModel;
 
-class Customer extends Comparable implements IDataModel, IParsable
+class Customer implements IDataModel, IParsable
 {
 	protected $_id;
 	protected $_name;
@@ -73,25 +73,19 @@ class Customer extends Comparable implements IDataModel, IParsable
 	}
 	#endregion
 	#region Implementations
-	## [Comparable]
-	public function GetIdentity()
-	{
-		return $this->getId();
-	}
 	## [IParsable]
 	public static function &fromArray(array &$array)
 	{
 		if(
-			!isset($array['id']) &&
+			!isset($array['customer_id']) &&
 			!isset($array['name']) &&
-			!isset($array['address']) &&
 			!isset($array['phonenumber'])
 		){
 			return; // Exit if Array not Suffecicent
 		}
 
-		$customer = new Customer($array['name'], $array['address'], $array['phonenumber']);
-		$customer->setId($array['id']);
+		$customer = new Customer($array['name'], $array['phonenumber']);
+		$customer->SetId($array['customer_id']);
 		
 		return $customer;
 	}

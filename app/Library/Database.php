@@ -7,7 +7,7 @@ class Database
 	private const HOST = "127.0.0.1:3308";
 	private const USERNAME = "root";
 	private const PASSWORD = "";
-	private const DATABASE = "printingpress";
+	private const DATABASE = "printingpress_test";
 	
 	protected $__dbInstance;
 
@@ -18,7 +18,7 @@ class Database
 	}
 
 	#region Methods
-	public function getInstance()
+	public function GetInstance()
 	{
 		return $this->__dbInstance;
 	}
