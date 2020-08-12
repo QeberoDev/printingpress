@@ -4,9 +4,9 @@ use printingpress_test;
 
 DROP TABLE IF EXISTS `customer`;
 CREATE TABLE IF NOT EXISTS `customer` ( 
-	`customer_id` INT NOT NULL AUTO_INCREMENT;, 
+	`customer_id` INT NOT NULL AUTO_INCREMENT, 
 	`name` VARCHAR(128) NOT NULL , 
-	`phonenumber` VARCHAR(13) NOT NULL , 
+	`phonenumber` VARCHAR(13) NOT NULL UNIQUE, 
 	`address` VARCHAR(256) NULL DEFAULT NULL , 
 	`email` VARCHAR(250) NULL DEFAULT NULL , 
 	PRIMARY KEY (`customer_id`), 
@@ -25,19 +25,18 @@ CREATE TABLE IF NOT EXISTS `employee` (
   PRIMARY KEY (`employee_id`),
   UNIQUE KEY `phone_number` (`phone_number`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-COMMIT;
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` ( 
-	`user_id` INT NOT NULL AUTO_INCREMENT;,
+	`user_id` INT NOT NULL AUTO_INCREMENT,
 	`employee_id` INT NOT NULL,
 	`username` VARCHAR(64) NOT NULL UNIQUE,
 	`password` VARCHAR(128) NOT NULL,
 	`account_type` INT NOT NULL,
 	`created_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	PRIMARY KEY (`id`),
+	PRIMARY KEY (`user_id`),
 	UNIQUE (`employee_id`),
-	INDEX `employee_id` (`employee_id`),
+	INDEX `emp_id` (`employee_id`),
     FOREIGN KEY (`employee_id`)
         REFERENCES employee(employee_id)
         ON UPDATE CASCADE ON DELETE CASCADE

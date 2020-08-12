@@ -20,10 +20,10 @@ class Order implements IDataModel
 	protected $_worker_id;
 	protected $_editor_id;
 
-	public function __construct(Customer $customer, $order_type)
+	public function __construct(Customer $customer, $order_type = null)
 	{
 		$this->customer_id = $customer->GetId();
-		
+		if($order_type > self::EDIT_ONLY && $order_type < self::EDIT_AND_PRINT) $this->SetOrderType($order_type);
 	}
 
 	#region Setter
