@@ -13,4 +13,4 @@ VALUES
 INSERT INTO `user` (employee_id, `username`, `password`, account_type)
 VALUES
 	(1, 'empuser1', 'emppass1', '1')
-	(2, 'empuser2', 'emppass2', '1');
+	(1, 'empuser2', 'emppass2', '1');
