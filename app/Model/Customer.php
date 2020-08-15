@@ -8,10 +8,15 @@ use App\Model\Abstraction\IDataModel;
 
 class Customer implements IDataModel, IParsable
 {
+	/** @var int $_id */
 	protected $_id;
+	/** @var string $_name */
 	protected $_name;
+	/** @var string $_phonenumber */
 	protected $_phonenumber;
+	/** @var string $_address */
 	protected $_address;
+	/** @var string $_created_date */
 	protected $_created_date;
 
 	/**
@@ -77,7 +82,6 @@ class Customer implements IDataModel, IParsable
 	public static function &fromArray(array &$array)
 	{
 		if(
-			!isset($array['customer_id']) &&
 			!isset($array['name']) &&
 			!isset($array['phonenumber'])
 		){
@@ -85,7 +89,7 @@ class Customer implements IDataModel, IParsable
 		}
 
 		$customer = new Customer($array['name'], $array['phonenumber']);
-		$customer->SetId($array['customer_id']);
+		if(isset($array['id'])) $customer->SetId($array['id']);
 		
 		return $customer;
 	}

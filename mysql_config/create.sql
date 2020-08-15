@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `employee` (
   `address` varchar(256) DEFAULT NULL,
   `email` varchar(80) DEFAULT NULL,
   PRIMARY KEY (`employee_id`),
-  UNIQUE KEY `phone_number` (`phone_number`)
+  UNIQUE KEY (`phone_number`)
 ) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS `user`;
@@ -67,7 +67,7 @@ CREATE TABLE `user_role_map` (
 
 DROP TABLE IF EXISTS `order`;
 CREATE TABLE IF NOT EXISTS `order` (
-	`order_id` INT NOT NULL,
+	`order_id` INT NOT NULL AUTO_INCREMENT,
 	`customer_id` INT NOT NULL,
 	`cashier_id` INT NOT NULL,
 	`order_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -92,9 +92,9 @@ CREATE TABLE IF NOT EXISTS `order_type_map` (
 	`order_type_id` INT NOT NULL,
 	`unit_price` DOUBLE NOT NULL,
 	`amount` INT NOT NULL,
-	FOREIGN KEY (`order_type_id`) REFERENCES order_type(`order_type_id`),
+	FOREIGN KEY (`order_id`) REFERENCES `order`(`order_id`),
 	FOREIGN KEY (`employee_id`) REFERENCES employee(`employee_id`),
-	FOREIGN KEY (`order_id`) REFERENCES order(`order_id`)
+	FOREIGN KEY (`order_type_id`) REFERENCES order_type(`order_type_id`)
 ) ENGINE = InnoDB;
 
 DROP TABLE IF EXISTS `admin`;

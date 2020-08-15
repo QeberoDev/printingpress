@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Library\Abstraction\Controller as Controller;
 use App\Model\Customer as Customer;
 use App\Library\Database as Database;
+use PDOException;
 
 class CustomerController extends Controller
 {
@@ -21,6 +22,7 @@ class CustomerController extends Controller
 		$name = htmlspecialchars(strip_tags($name));
 		if($address) $address = htmlspecialchars(strip_tags($address));
 		$phonenumber = htmlspecialchars(strip_tags($phonenumber));
+		$phonenumber = str_replace(" ", "", $phonenumber);
 
 		$customer = new Customer($name, $phonenumber);
 
@@ -38,9 +40,15 @@ class CustomerController extends Controller
 		$stmt->bindParam(":address", $address);
 		$stmt->bindParam(":phonenumber", $phonenumber);
 
-		if ($stmt->execute()) {
-			$customer->setId($db->lastInsertId());
-			return $customer;
+		try
+		{
+			if ($stmt->execute()) {
+				$customer->setId($db->lastInsertId());
+				return $customer;
+			}
+		} catch (PDOException $exc)
+		{
+			throw $exc;
 		}
 
 		return NULL;
@@ -168,8 +176,35 @@ class CustomerController extends Controller
 
 		return false;
 	}
-	public static function Search(string $query)
+	public function Search(array $neddle)
 	{
+		$result = [];
+
+		$db = new Database();
+		$db = $db->GetInstance();
+
+		$sql = "SELECT * FROM " . self::TABLE_NAME . " WHERE ";
+		if(isset($neddle['name'])) $sql .= " name LIKE '%Biftu%'";
+		if(isset($neddle['phonenumber'])) $sql .= " phonenumber LIKE '%:phonenumber%'";
+		
+		$stmt = $db->prepare($sql);
+		
+		if(isset($neddle['name'])) $stmt->bindParam('name', $neddle['name']);
+		if(isset($neddle['phonenumber'])) $stmt->bindParam('phonenumber', $neddle['phonenumber']);
+
+		if($row = $stmt->fetchAll(\PDO::FETCH_ASSOC))
+		{
+			foreach($row as $index => $customer)
+			{
+				array_push($result, Customer::fromArray($customer));
+			}
+		}
+
+		$result = [];
+		array_push($result, (new Customer('Biftu Tulu', '0933221144')));
+		array_push($result, (new Customer('Biftu Mulu', '0933221155')));
+
+		return $result;
 	}
 	public static function Count()
 	{

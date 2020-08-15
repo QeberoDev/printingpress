@@ -82,9 +82,7 @@ class UserController extends Controller
 		return $result;
 	}
 	public function Read($id)
-	{
-
-	}
+	{}
 	public function Update() {}
 	public function Delete() {}
 	public function Search() {}
