@@ -89,18 +89,76 @@ class CustomerControllerTest extends TestCase
 	}
 
 	/** @test */
-	public function can_search_for_customer_in_database()
+	public function can_search_for_customer_by_name_in_database()
 	{
-		$createdCustomer1 = $this->controller::Create('Biftu Tulu', '0933221144');
-		$createdCustomer2 = $this->controller::Create('Biftu Mulu', '0933221155');
+		/** @var App\Model\Customer $createdCustomer1*/
+		$createdCustomer1 = $this->controller::Create('Biftu Tulu 2', '0933221144');
+		/** @var App\Model\Customer $createdCustomer2 */
+		$createdCustomer2 = $this->controller::Create('Biftu Tulu 1', '0933221155');
 		
 		$searchedCustomer = $this->controller::Search([
-			'name' => "Biftu"
+			'name' => "Biftu Tulu"
 		]);
 
 		$this->assertCount(2, $searchedCustomer);
 		$this->assertEquals($createdCustomer1->GetPhonenumber(), $searchedCustomer[0]->GetPhonenumber());
 		$this->assertEquals($createdCustomer2->GetPhonenumber(), $searchedCustomer[1]->GetPhonenumber());
+
+		$this->controller::Delete($createdCustomer1->GetId());
+		$this->controller::Delete($createdCustomer2->GetId());
+	}
+
+	/** @test */
+	public function can_search_for_customer_by_phonenumber_in_database()
+	{
+		$createdCustomer1 = $this->controller::Create('Girma Achiru', '0911321166');
+		$createdCustomer2 = $this->controller::Create('Girma Rejemu', '0911321177');
+
+		$searchedCustomer = $this->controller::Search([
+			'phonenumber' => "09113211"
+		]);
+
+		$this->assertCount(2, $searchedCustomer);
+		$this->assertEquals($createdCustomer1->GetPhonenumber(), $searchedCustomer[0]->GetPhonenumber());
+		$this->assertEquals($createdCustomer2->GetPhonenumber(), $searchedCustomer[1]->GetPhonenumber());
+
+		$this->controller::Delete($createdCustomer1->GetId());
+		$this->controller::Delete($createdCustomer2->GetId());
+	}
+
+	/** @test */
+	public function can_search_for_cusotomer_by_address_in_database()
+	{
+		$createdCustomer1 = $this->controller::Create("Gemechu Bonsa", "0988776655", "Gende Hara");
+		$createdCustomer2 = $this->controller::Create("Rebira Biqila", "0976665411", "Gende Hara");
+
+		$searchedCustomer = $this->controller::Search([
+			'address' => "Gende Ha"
+		]);
+
+		$this->assertCount(2, $searchedCustomer);
+		$this->assertEquals($createdCustomer1->GetId(), $searchedCustomer[0]->GetId());
+		$this->assertEquals($createdCustomer2->GetId(), $searchedCustomer[1]->GetId());
+
+		$this->controller::Delete($createdCustomer1->GetId());
+		$this->controller::Delete($createdCustomer2->GetId());
+	}
+
+	/** @test */
+	public function can_search_for_customer_by_name_address_and_phonenumber()
+	{
+		$createdCustomer1 = $this->controller::Create("Gemechu Bonsa", "0909090988", "Maya Hotel");
+		$createdCustomer2 = $this->controller::Create("Gemechu Binsa", "0909090989", "Maya Hotel");
+
+		$searchedCustomer = $this->controller::Search([
+			'name' => "Gemechu",
+			'phonenumber' => "090909",
+			'address' => "Maya"
+		]);
+
+		$this->assertCount(2, $searchedCustomer);
+		$this->assertEquals($createdCustomer1->GetId(), $searchedCustomer[0]->GetId());
+		$this->assertEquals($createdCustomer2->GetId(), $searchedCustomer[1]->GetId());
 
 		$this->controller::Delete($createdCustomer1->GetId());
 		$this->controller::Delete($createdCustomer2->GetId());

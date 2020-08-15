@@ -82,6 +82,7 @@ class Customer implements IDataModel, IParsable
 	public static function &fromArray(array &$array)
 	{
 		if(
+			!isset($array['customer_id']) &&
 			!isset($array['name']) &&
 			!isset($array['phonenumber'])
 		){
@@ -89,7 +90,7 @@ class Customer implements IDataModel, IParsable
 		}
 
 		$customer = new Customer($array['name'], $array['phonenumber']);
-		if(isset($array['id'])) $customer->SetId($array['id']);
+		if(isset($array['customer_id'])) $customer->SetId($array['customer_id']);
 		
 		return $customer;
 	}

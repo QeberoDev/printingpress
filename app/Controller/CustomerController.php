@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+# System Libraries
+use PDOException;
+# My Libraries
 use App\Library\Abstraction\Controller as Controller;
 use App\Model\Customer as Customer;
 use App\Library\Database as Database;
-use PDOException;
 
 class CustomerController extends Controller
 {
@@ -78,7 +80,7 @@ class CustomerController extends Controller
 
 		return NULL;
 	}
-	## TODO: Add Paged Returns
+	## DONE: Add Paged Returns
 	public static function ReadAll(int $page = 1)
 	{
 		$tablename = CustomerController::TABLE_NAME;
@@ -176,21 +178,39 @@ class CustomerController extends Controller
 
 		return false;
 	}
-	public function Search(array $neddle)
+	public static function Search(array $neddle)
 	{
 		$result = [];
 
 		$db = new Database();
 		$db = $db->GetInstance();
 
-		$sql = "SELECT * FROM " . self::TABLE_NAME . " WHERE ";
-		if(isset($neddle['name'])) $sql .= " name LIKE '%Biftu%'";
-		if(isset($neddle['phonenumber'])) $sql .= " phonenumber LIKE '%:phonenumber%'";
+		$sql = "SELECT * FROM " . CustomerController::TABLE_NAME . " WHERE ";
+		if(isset($neddle['name']))
+		{
+			$neddle['name'] = '%' . $neddle['name'] . '%';
+			$sql .= " name LIKE :name";
+			if(count($neddle) > 1) $sql .= " AND";
+		}
+		if(isset($neddle['phonenumber']))
+		{
+			$neddle['phonenumber'] = '%' . $neddle['phonenumber'] . '%';
+			$sql .= " phonenumber LIKE :phonenumber";
+			if(count($neddle) > 1 && count($neddle) != 2) $sql .= " AND";
+		}
+		if(isset($neddle['address']))
+		{
+			$neddle['address'] = '%' . $neddle['address'] . '%';
+			$sql .= " address LIKE :address";
+		}
 		
 		$stmt = $db->prepare($sql);
 		
-		if(isset($neddle['name'])) $stmt->bindParam('name', $neddle['name']);
-		if(isset($neddle['phonenumber'])) $stmt->bindParam('phonenumber', $neddle['phonenumber']);
+		if(isset($neddle['name'])) $stmt->bindParam(':name', $neddle['name']);
+		if(isset($neddle['phonenumber'])) $stmt->bindParam(':phonenumber', $neddle['phonenumber']);
+		if(isset($neddle['address'])) $stmt->bindParam(':address', $neddle['address']);
+
+		$stmt->execute();
 
 		if($row = $stmt->fetchAll(\PDO::FETCH_ASSOC))
 		{
@@ -199,10 +219,6 @@ class CustomerController extends Controller
 				array_push($result, Customer::fromArray($customer));
 			}
 		}
-
-		$result = [];
-		array_push($result, (new Customer('Biftu Tulu', '0933221144')));
-		array_push($result, (new Customer('Biftu Mulu', '0933221155')));
 
 		return $result;
 	}
