@@ -28,6 +28,8 @@ class CustomerController extends Controller
 
 		$customer = new Customer($name, $phonenumber);
 
+		if($address) $customer->SetAddress($address);
+
 		$db = (new Database())->GetInstance();
 
 		$query = "INSERT INTO "
@@ -186,6 +188,7 @@ class CustomerController extends Controller
 		$db = $db->GetInstance();
 
 		$sql = "SELECT * FROM " . CustomerController::TABLE_NAME . " WHERE ";
+
 		if(isset($neddle['name']))
 		{
 			$neddle['name'] = '%' . $neddle['name'] . '%';
