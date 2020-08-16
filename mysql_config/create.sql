@@ -71,6 +71,7 @@ CREATE TABLE IF NOT EXISTS `order` (
 	`customer_id` INT NOT NULL,
 	`cashier_id` INT NOT NULL,
 	`order_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`delivery_date` DATE NOT NULL,
 	PRIMARY KEY (`order_id`),
 	FOREIGN KEY (`customer_id`) REFERENCES customer(`customer_id`),
 	FOREIGN KEY (`cashier_id`) REFERENCES employee(`employee_id`)
@@ -99,7 +100,9 @@ CREATE TABLE IF NOT EXISTS `order_type_map` (
 
 DROP TABLE IF EXISTS `admin`;
 CREATE TABLE IF NOT EXISTS `admin` (
+	`admin_id` INT NOT NULL AUTO_INCREMENT,
 	`username` VARCHAR(64) NOT NULL,
 	`password` VARCHAR(64) NOT NULL,
-	`created_date` TIMESTAMP NOT NULL
+	`created_date` TIMESTAMP NOT NULL,
+	PRIMARY KEY (`admin_id`)
 ) ENGINE = InnoDB;

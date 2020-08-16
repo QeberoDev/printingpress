@@ -2,14 +2,13 @@
 
 namespace App\Model;
 
-use App\Library\Abstraction\Comparable as Comparable;
 use App\Library\Abstraction\IParsable as IParsable;
 use App\Model\Abstraction\IDataModel;
 
 class Customer implements IDataModel, IParsable
 {
 	/** @var int $_id */
-	protected $_id;
+	protected $_customer_id;
 	/** @var string $_name */
 	protected $_name;
 	/** @var string $_phonenumber */
@@ -36,7 +35,7 @@ class Customer implements IDataModel, IParsable
 	#region Setter
 	public function SetId(int $id)
 	{
-		$this->_id = $id;
+		$this->_customer_id = $id;
 	}
 	public function SetName(string $name)
 	{
@@ -58,7 +57,7 @@ class Customer implements IDataModel, IParsable
 	#region Getter
 	public function GetId()
 	{
-		return $this->_id;
+		return $this->_customer_id;
 	}
 	public function GetName()
 	{

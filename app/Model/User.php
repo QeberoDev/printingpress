@@ -11,14 +11,15 @@ class User implements IDataModel, IParsable
 	protected $_employee_id;
 	protected $_username;
 	protected $_password;
-	protected $_account_type;
+	protected $_employee_type;
 	protected $_created_date;
+	protected $_active;
 
-	public function __construct(int $employee_id, string $username, string $password)
+	public function __construct(Employee $employee, string $username, string $password)
 	{
-		$this->_employee_id = $employee_id;
-		$this->_username = $username;
-		$this->_password = $password;
+		$this->SetEmployee($employee);
+		$this->SetUsername($username);
+		$this->SetPassword($password);
 	}
 	
 	#region Setter
@@ -29,6 +30,15 @@ class User implements IDataModel, IParsable
 	public function SetEmployeeId(int $id)
 	{
 		$this->_employee_id = $id;
+	}
+	public function SetEmployeeType(string $employeeType)
+	{
+		$this->_employee_type = $employeeType;
+	}
+	public function SetEmployee(Employee $employee)
+	{
+		$this->SetEmployeeId($employee->GetId());
+		$this->SetEmployeeType(get_class($employee));
 	}
 	public function SetUsername(string $username)
 	{
@@ -45,6 +55,10 @@ class User implements IDataModel, IParsable
 	public function SetAccountType(int $account_type)
 	{
 		$this->_account_type = $account_type;
+	}
+	public function SetActive(bool $is_active)
+	{
+		$this->_active = $is_active;
 	}
 	#endregion
 	#region Getter
@@ -67,6 +81,10 @@ class User implements IDataModel, IParsable
 	public function GetCreatedDate()
 	{
 		return $this->_created_date;
+	}
+	public function IsActive()
+	{
+		return $this->_active;
 	}
 	#endregion
 	#region Implementation

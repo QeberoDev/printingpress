@@ -7,12 +7,12 @@ use App\Model\Customer;
 
 class Order implements IDataModel
 {
-	## Constants
+	# Order Types
 	public const EDIT_ONLY = 1;
 	public const PRINT_ONLY = 2;
 	public const EDIT_AND_PRINT = 3;
 	
-	protected $_id;
+	protected $_order_id;
 	protected $_created_date;
 	protected $_order_type;
 	protected $_delivery_date;
@@ -29,7 +29,7 @@ class Order implements IDataModel
 	#region Setter
 	public function SetId(int $id)
 	{
-		$this->_id = $id;
+		$this->_order_id = $id;
 	}
 	public function SetOrderType($order_type)
 	{
@@ -61,7 +61,7 @@ class Order implements IDataModel
 	#region Getter
 	public function GetId()
 	{
-		return $this->_id;
+		return $this->_order_id;
 	}
 	public function GetCreatedDate()
 	{

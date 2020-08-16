@@ -39,7 +39,6 @@ class CustomerController extends Controller
 		$stmt = $db->prepare($query);
 
 		// binding
-		// $stmt->bindParam(":id", $id);
 		$stmt->bindParam(":name", $name);
 		$stmt->bindParam(":address", $address);
 		$stmt->bindParam(":phonenumber", $phonenumber);
@@ -47,7 +46,7 @@ class CustomerController extends Controller
 		try
 		{
 			if ($stmt->execute()) {
-				$customer->setId($db->lastInsertId());
+				$customer->SetId($db->lastInsertId());
 				return $customer;
 			}
 		} catch (PDOException $exc)

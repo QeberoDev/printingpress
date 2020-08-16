@@ -54,8 +54,8 @@ class OrderTest extends TestCase
 	/** @test */
 	public function can_set_employee()
 	{
-		$editor = new Editor('editor name', 'bole 04', '+251911223344');
-		$worker = new PrintWorker('worker name', 'bole chaf', '+251910203040');
+		$editor = new Editor('editor', 'name', 'bole 04', '+251911223344', 'emp1@ourmail.com');
+		$worker = new PrintWorker('worker', 'name', 'bole chaf', '+251910203040', 'emp2@ourmail.com');
 		$editor->SetId(12);
 		$worker->SetId(12);
 
