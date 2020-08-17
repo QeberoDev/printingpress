@@ -15,9 +15,9 @@ class User implements IDataModel, IParsable
 	protected $_created_date;
 	protected $_active;
 
-	public function __construct(Employee $employee, string $username, string $password)
+	public function __construct(string $username, string $password, Employee $employee = null)
 	{
-		$this->SetEmployee($employee);
+		if(isset($employee)) $this->SetEmployee($employee);
 		$this->SetUsername($username);
 		$this->SetPassword($password);
 	}
@@ -89,7 +89,7 @@ class User implements IDataModel, IParsable
 	#endregion
 	#region Implementation
 	## [IParsable]
-	public static function &fromArray(array &$array)
+	public static function &FromArray(array &$array)
 	{
 		if(
 			!isset($array['employee_id']) &&

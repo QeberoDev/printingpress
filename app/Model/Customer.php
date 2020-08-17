@@ -78,7 +78,7 @@ class Customer implements IDataModel, IParsable
 	#endregion
 	#region Implementations
 	## [IParsable]
-	public static function &fromArray(array &$array)
+	public static function &FromArray(array &$array)
 	{
 		if(
 			!isset($array['customer_id']) &&
@@ -89,6 +89,7 @@ class Customer implements IDataModel, IParsable
 		}
 
 		$customer = new Customer($array['name'], $array['phonenumber']);
+		if(isset($array['address'])) $customer->SetAddress($array['address']);
 		if(isset($array['customer_id'])) $customer->SetId($array['customer_id']);
 		
 		return $customer;

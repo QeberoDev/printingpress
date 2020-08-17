@@ -14,7 +14,7 @@ class UserTest extends \PHPUnit\Framework\TestCase
 		$employee = new Employee('Chala', 'Gadiso', 'Ezihu Man', '0911223344', 'mail@domain.com');
 		$employee->SetId(25);
 		
-		$this->user = new User($employee, 'empname1', 'emppass1');
+		$this->user = new User('empname1', 'emppass1', $employee);
 		$this->user->SetEmployee($employee);
 	}
 

@@ -20,7 +20,8 @@ class UserController extends Controller
 		$username = htmlspecialchars((strip_tags($username)));
 		$password = htmlspecialchars(strip_tags($password));
 
-		$user = new User($employee_id, $username, $password);
+		$user = new User($username, $password);
+		$user->SetEmployeeId($employee_id);
 		
 		$db = $this->__database->GetInstance();
 
@@ -30,9 +31,9 @@ class UserController extends Controller
 					 employee_id=:employee_id, username=:username, password=:password";
 		$stmt = $db->prepare($query);
 
-		$stmt->bindParam(":employee_id", $employee_id);
-		$stmt->bindParam(":username", $username);
-		$stmt->bindParam(":password", $password);
+		$stmt->bindParam(":employee_id", $user->GetEmployeeId());
+		$stmt->bindParam(":username", $user->GetUsername());
+		$stmt->bindParam(":password", $user->GetPassword());
 
 		if($stmt->execute())
 		{

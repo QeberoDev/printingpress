@@ -162,5 +162,5 @@ class CustomerControllerTest extends TestCase
 
 		$this->controller::Delete($createdCustomer1->GetId());
 		$this->controller::Delete($createdCustomer2->GetId());
-	}
+	}	
 }

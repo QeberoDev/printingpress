@@ -4,5 +4,5 @@ namespace App\Library\Abstraction;
 
 interface IParsable
 {
-	public static function &fromArray(array &$array);
+	public static function &FromArray(array &$array);
 }
