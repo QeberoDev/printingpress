@@ -41,7 +41,7 @@ class CustomerControllerTest extends TestCase
 	/** @test */
 	public function can_read_customer_from_database()
 	{
-		$sql = "SELECT * FROM " . $this->controller::TABLE_NAME . " WHERE customer_id = :id";
+		$sql = "SELECT * FROM " . CustomerController::TABLE_NAME . " WHERE customer_id = :id";
 		$stmt = $this->db_instance->prepare($sql);
 		$id = 1;
 		$stmt->bindParam(':id', $id);

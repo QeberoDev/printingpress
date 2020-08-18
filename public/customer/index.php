@@ -1,8 +1,6 @@
 <?php
 
-spl_autoload_register(function($class_name){
-	include_once __DIR__ . "/../../" . $class_name . ".php";
-});
+require_once __DIR__ . '/../../app/autoloader.php';
 
 use App\Controller\CustomerController as CustomerController;
 use App\Util\Pager as Pager;

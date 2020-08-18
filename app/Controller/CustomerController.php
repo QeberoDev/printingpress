@@ -32,7 +32,7 @@ class CustomerController extends Controller
 
 		$db = (new Database())->GetInstance();
 
-		$query = "INSERT INTO ${self::TABLE_NAME} SET name=:name, address=:address, phonenumber=:phonenumber";
+		$query = "INSERT INTO " . CustomerController::TABLE_NAME . " SET name=:name, address=:address, phonenumber=:phonenumber";
 		$stmt = $db->prepare($query);
 
 		// binding
@@ -55,7 +55,7 @@ class CustomerController extends Controller
 	}
 	public static function Read(string $id)
 	{
-		$query = "SELECT * FROM ${self::TABLE_NAME} WHERE customer_id=:id LIMIT 0, 1";
+		$query = "SELECT * FROM " . self::TABLE_NAME . " WHERE customer_id=:id LIMIT 0, 1";
 
 		$db = (new Database())->GetInstance();
 
@@ -83,7 +83,7 @@ class CustomerController extends Controller
 	{
 		$tablename = CustomerController::TABLE_NAME;
 		$offset = ($page <= 1) ? 0 : 20 * ($page - 1);
-		$query = "SELECT * FROM ${self::TABLE_NAME} ORDER BY customer_id LIMIT {$offset}, 20";
+		$query = "SELECT * FROM " . CustomerController::TABLE_NAME . " ORDER BY customer_id LIMIT {$offset}, 20";
 
 		$db = new Database();
 		$db = $db->GetInstance();
@@ -131,7 +131,9 @@ class CustomerController extends Controller
 
 		$db = (new Database())->GetInstance();
 
-		$query = "UPDATE ${self::TABLE_NAME} SET
+		$query = "UPDATE "
+					. CustomerController::TABLE_NAME .
+				" SET
 				name = :name,
 				address = :address,
 				phonenumber = :phonenumber
@@ -150,7 +152,7 @@ class CustomerController extends Controller
 	public static function Delete(string $id)
 	{
 		// delete query
-		$query = "DELETE FROM ${self::TABLE_NAME} WHERE customer_id = ?";
+		$query = "DELETE FROM " . CustomerController::TABLE_NAME . " WHERE customer_id = ?";
 
 		$db = new Database();
 		$db = $db->GetInstance();
@@ -175,7 +177,7 @@ class CustomerController extends Controller
 		$db = new Database();
 		$db = $db->GetInstance();
 
-		$sql = "SELECT * FROM ${self::TABLE_NAME} WHERE ";
+		$sql = "SELECT * FROM " . CustomerController::TABLE_NAME . " WHERE ";
 
 		if(isset($neddle['name'])) {
 			$neddle['name'] = '%' . $neddle['name'] . '%';
@@ -212,7 +214,7 @@ class CustomerController extends Controller
 	}
 	public static function Count()
 	{
-		$countQuery = "SELECT COUNT(*) as count FROM customer";
+		$countQuery = "SELECT COUNT(*) as count FROM " . CustomerController::TABLE_NAME;
 
 		$db = new Database();
 		$db = $db->GetInstance();

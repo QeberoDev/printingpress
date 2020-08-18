@@ -52,13 +52,11 @@ class AdminController extends Controller
 		$db = $db->GetInstance();
 
 		$sql = "SELECT * FROM " . self::TABLE_NAME . " WHERE admin_id=:id";
+
 		$stmt = $db->prepare($sql);
-
 		$stmt->bindParam('id', $id);
-
 		$stmt->execute();
 
-		$admin = null;
 		if($row = $stmt->fetch(\PDO::FETCH_ASSOC))
 		{
 			$admin = Admin::FromArray($row);

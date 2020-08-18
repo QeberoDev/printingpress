@@ -1,45 +1,22 @@
 <?php
 
-spl_autoload_register(function($class_name) {
-	include_once __DIR__ . "/" . $class_name . ".php";
-});
+$host = "mysql:dbname=test;host=127.0.0.1:3308";
+$username = "root";
+$password = '';
 
-use App\Library\Database;
+$db = new \PDO($host, $username, $password);
 
-$db = new Database();
-$db = $db->GetInstance();
+$sql = "SELECT * FROM test_table";
 
-$sql = "select * from customer";
 $stmt = $db->prepare($sql);
+$stmt->execute();
 
-try
+if($row = $stmt->fetchAll())
 {
-	if($row = $stmt->fetchAll())
+	foreach($row as $index => $value)
 	{
-		echo $row;
+		var_dump($value);
 	}
-} catch (PDOException $exc)
-{
-	echo $exc;
 }
 
-use App\Controller\CustomerController;
-use App\Controller\UserController;
-
-$customerController = new CustomerController();
-
-// $customerController->Create('Abebe', '0913189411');
-// $customerController->Create('Beqele', '0909090909');
-
-$output = $customerController->ReadAll();
-// $customerController->Delete(1);
-$output = $customerController->ReadAll();
-
-var_dump($output);
-var_dump($customerController->Count());
-
-$userController = new UserController();
-
-// $user = $userController->Create('2', 'whatis', 'really');
-var_dump($userController->Count());
-var_dump($userController->ReadAll());
+echo PHP_EOL;

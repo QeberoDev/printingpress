@@ -30,7 +30,7 @@ class AdminControllerTest extends TestCase
 	/** @test */
 	public function can_count_admin_from_database()
 	{
-		$sql = "SELECT COUNT(*) AS `count` FROM ${AdminController::TABLE_NAME}";
+		$sql = "SELECT COUNT(*) AS `count` FROM " . AdminController::TABLE_NAME;
 		$stmt = $this->db_instance->prepare($sql);
 		$stmt->execute();
 		$row = $stmt->fetch(\PDO::FETCH_ASSOC);
@@ -40,7 +40,7 @@ class AdminControllerTest extends TestCase
 	/** @test */
 	public function can_read_admin_from_database()
 	{
-		$sql = "SELECT * FROM ${AdminController::TABLE_NAME} WHERE admin_id = :id";
+		$sql = "SELECT * FROM " . AdminController::TABLE_NAME . " WHERE admin_id = :id";
 		$stmt = $this->db_instance->prepare($sql);
 		$id = 1;
 		$stmt->bindParam(':id', $id);
