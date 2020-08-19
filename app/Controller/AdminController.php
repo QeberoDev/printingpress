@@ -2,10 +2,11 @@
 
 namespace App\Controller;
 
+use PDOException;
+
 use App\Library\Abstraction\Controller;
 use App\Library\Database;
 use App\Model\Admin;
-use PDOException;
 
 class AdminController extends Controller
 {

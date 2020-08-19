@@ -2,6 +2,8 @@
 
 namespace App\Library;
 
+use PDO;
+
 class Database
 {
 	private const HOST = "127.0.0.1:3308";
@@ -21,6 +23,17 @@ class Database
 	public function GetInstance()
 	{
 		return $this->__dbInstance;
+	}
+	#endregion
+
+	#region Utilities
+	public function GetTables()
+	{
+		$sql = "SHOW TABLES";
+		$stmt = $this->GetInstance()->prepare($sql);
+
+		$stmt->execute();
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
 	#endregion
 }

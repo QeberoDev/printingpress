@@ -28,11 +28,12 @@ CREATE TABLE IF NOT EXISTS `employee` (
   `first_name` varchar(128) NOT NULL,
   `last_name` varchar(128) NOT NULL,
   `phone_number` varchar(13) NOT NULL,
-  `employee_type_id` varchar(40) NOT NULL,
+  `employee_type_id` INT NOT NULL,
   `address` varchar(256) DEFAULT NULL,
   `email` varchar(80) DEFAULT NULL,
   PRIMARY KEY (`employee_id`),
-  UNIQUE KEY (`phone_number`)
+  UNIQUE KEY (`phone_number`),
+  FOREIGN KEY (`employee_type_id`) REFERENCES `employee_type`(`employee_type_id`)
 ) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS `user`;
@@ -94,8 +95,8 @@ CREATE TABLE IF NOT EXISTS `order_type_map` (
 	`unit_price` DOUBLE NOT NULL,
 	`amount` INT NOT NULL,
 	FOREIGN KEY (`order_id`) REFERENCES `order`(`order_id`),
-	FOREIGN KEY (`employee_id`) REFERENCES employee(`employee_id`),
-	FOREIGN KEY (`order_type_id`) REFERENCES order_type(`order_type_id`)
+	FOREIGN KEY (`employee_id`) REFERENCES `employee`(`employee_id`),
+	FOREIGN KEY (`order_type_id`) REFERENCES `order_type`(`order_type_id`)
 ) ENGINE = InnoDB;
 
 DROP TABLE IF EXISTS `admin`;

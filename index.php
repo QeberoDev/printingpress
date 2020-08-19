@@ -1,22 +1,31 @@
 <?php
 
-$host = "mysql:dbname=test;host=127.0.0.1:3308";
-$username = "root";
-$password = '';
+use Twig\TwigFilter;
 
-$db = new \PDO($host, $username, $password);
+require 'vendor/autoload.php';
 
-$sql = "SELECT * FROM test_table";
+$loader = new Twig\Loader\FilesystemLoader('views');
+$twig = new Twig\Environment($loader);
 
-$stmt = $db->prepare($sql);
-$stmt->execute();
+$md5Filter = new TwigFilter('md5', function($string) {
+	return md5($string);
+});
 
-if($row = $stmt->fetchAll())
-{
-	foreach($row as $index => $value)
-	{
-		var_dump($value);
-	}
-}
+$twig->addFilter($md5Filter);
 
-echo PHP_EOL;
+$lexer = new Twig\Lexer($twig, [
+	'tag_block' => ['{', '}'],
+	'tag_variable' => ['{{', '}}']
+]);
+
+$twig->setLexer($lexer);
+
+echo $twig->render('hello.html', [
+	'name' => 'Michle',
+	'age' => 52,
+	'users' => [
+		[ 'name' => 'Max',  'age' => 18 ],
+		[ 'name' => 'James', 'age' => 22 ],
+		[ 'name' => 'Billy', 'age' => 18 ]
+	]
+]);
