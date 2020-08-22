@@ -8,6 +8,9 @@
         }
     },
     "require": {
-        "twig/twig": "3.0"
+        "twig/twig": "3.0",
+        "slim/slim": "^4.5",
+        "illuminate/database": "^7.25",
+        "respect/validation": "^2.0"
     }
 }
